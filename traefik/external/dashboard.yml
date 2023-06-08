@@ -1,0 +1,18 @@
+http:
+  routers:
+    traefik:
+      rule: Host(`traefik.homelab.io`)
+      service: api@internal
+      entrypoints: websecure
+      tls: {}
+      middlewares:
+        - "traefik-auth"
+  middlewares:
+    traefik-auth:
+      basicAuth:
+        usersFile: "/etc/traefik/users.conf"
+  services:
+    traefik:
+      loadBalancer:
+        servers:
+          - "http://traefik:8080"
