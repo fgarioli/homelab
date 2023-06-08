@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  samba:
+    image: crazymax/samba
+    container_name: samba
+    network_mode: host
+    volumes:
+      - ./data:/data
+      - /media/WD1TB:/samba/WD1TB
+    environment:
+      - "SAMBA_LOG_LEVEL=0"
+      - "BROWSABLE=yes"
+    restart: unless-stopped

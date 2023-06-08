@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  embyserver:
+    image: emby/embyserver:latest
+    container_name: embyserver
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+      - /media/WD1TB:/media/WD1TB
+    environment:
+      - UID=1000 # The UID to run emby as (default: 2)
+      - GID=1000 # The GID to run emby as (default 2)
+      - GIDLIST=100 # A comma-separated list of additional GIDs to run emby as (default: 2)
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.emby.rule=Host(`emby.homelab.io`)"
+      - "traefik.http.routers.emby.tls=true"
+      - "traefik.http.routers.emby.entrypoints=websecure"
+      - "traefik.http.services.emby.loadbalancer.server.port=8096"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
