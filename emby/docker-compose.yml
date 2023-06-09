@@ -8,6 +8,9 @@ services:
     volumes:
       - ./config:/config
       - /media/WD1TB:/media/WD1TB
+    ports:
+      - 7359:7359/udp
+      - 1900:1900/udp
     environment:
       - UID=1000 # The UID to run emby as (default: 2)
       - GID=1000 # The GID to run emby as (default 2)
